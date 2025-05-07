@@ -1,4 +1,6 @@
 #Factorial multiplicación sussesiva de un número hacia abajo hasta 1
+#Formula: n! = n * (n-1) * (n-2) * ... * 1
+# Factorial de un número n es el producto de todos los números enteros positivos desde 1 hasta n.
 def factorial(n):
     if n < 0:
         raise ValueError("No se puede calcular el factorial de un número negativo")
