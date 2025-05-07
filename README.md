@@ -1,394 +1,279 @@
-# Tutorial Avanzado de Dart: Conceptos Profesionales
+# **Tutorial Avanzado de Python con Ejercicios Prácticos** 🚀🐍  
 
-Este tutorial cubre características avanzadas de Dart que te permitirán escribir código más profesional y eficiente. Asumimos que ya dominas los conceptos básicos del tutorial anterior.
-
-## 1. Programación Asíncrona: Futures, async/await
-
-Dart es single-threaded pero maneja operaciones asíncronas eficientemente.
-
-### Futures básicos
-
-```dart
-Future<String> fetchUserData() {
-  // Simulamos una operación que toma tiempo (como una API call)
-  return Future.delayed(Duration(seconds: 2), () => 'Datos del usuario: Juan Pérez');
-}
-
-void main() {
-  print('Iniciando...');
-  fetchUserData().then((data) {
-    print(data);
-  });
-  print('Esperando datos...');
-}
-```
-
-### async/await
-
-```dart
-Future<void> mostrarDatosUsuario() async {
-  try {
-    print('Cargando...');
-    var data = await fetchUserData(); // Espera sin bloquear el hilo
-    print('Datos recibidos: $data');
-  } catch (e) {
-    print('Error: $e');
-  }
-}
-
-void main() async {
-  await mostrarDatosUsuario();
-  print('Proceso completado');
-}
-```
-
-**Ejercicio Avanzado 1**: Crea una función que:
-
-1. Simule la descarga de 3 archivos (cada uno toma entre 1-3 segundos)
-2. Espere a que todos se completen usando `Future.wait`
-3. Procese los resultados juntos
-
-## 2. Streams y Reactive Programming
-
-Los Streams representan flujos de datos asíncronos.
-
-```dart
-import 'dart:async';
-
-Stream<int> contarHastaDiez() async* {
-  for (int i = 1; i <= 10; i++) {
-    await Future.delayed(Duration(seconds: 1));
-    yield i; // Emite un valor al stream
-  }
-}
-
-void main() {
-  final stream = contarHastaDiez();
-
-  final subscription = stream.listen(
-    (data) => print('Dato recibido: $data'),
-    onError: (err) => print('Error: $err'),
-    onDone: () => print('Stream completado'),
-    cancelOnError: false
-  );
-
-  // Para cancelar: subscription.cancel();
-}
-```
-
-**Ejercicio Avanzado 2**: Crea un Stream que emita:
-
-1. Temperaturas aleatorias cada segundo
-2. Filtre temperaturas mayores a 25°C
-3. Detenga el stream después de 10 emisiones
-
-## 3. Generics (Tipos Genéricos)
-
-```dart
-class Caja<T> {
-  final T contenido;
-
-  Caja(this.contenido);
-
-  T abrir() => contenido;
-}
-
-void main() {
-  var cajaString = Caja<String>('Sorpresa!');
-  var cajaInt = Caja<int>(42);
-
-  print(cajaString.abrir());
-  print(cajaInt.abrir());
-}
-```
-
-## 4. Extension Methods
-
-Agrega funcionalidad a clases existentes.
-
-```dart
-extension StringExtension on String {
-  String get capitalize =>
-      this.length > 0 ? this[0].toUpperCase() + this.substring(1) : this;
-
-  String get reverse => this.split('').reversed.join();
-}
-
-extension NumberParsing on String {
-  int toIntOrZero() => int.tryParse(this) ?? 0;
-}
-
-void main() {
-  print('dart'.capitalize); // Dart
-  print('hello'.reverse); // olleh
-  print('123'.toIntOrZero()); // 123
-  print('abc'.toIntOrZero()); // 0
-}
-```
-
-**Ejercicio Avanzado 3**: Crea extensiones para:
-
-1. List: método `mixto` que devuelva la lista mezclada
-2. DateTime: método `formatear` que devuelva "dd-MM-yyyy"
-
-## 5. Null Safety Avanzado
-
-Dart tiene null safety sólido. Veamos patrones avanzados.
-
-```dart
-class Usuario {
-  final String nombre;
-  final int? edad;
-
-  Usuario({required this.nombre, this.age});
-
-  void mostrarEdad() {
-    if (edad case final edad? when edad > 0) {
-      print('Edad: $edad');
-    } else {
-      print('Edad no disponible');
-    }
-  }
-}
-
-void main() {
-  var user = Usuario(nombre: 'Ana', edad: null);
-  user.mostrarEdad();
-
-  // Pattern matching con switch
-  var valor = 42;
-  var descripcion = switch (valor) {
-    > 50 => 'Grande',
-    < 20 => 'Pequeño',
-    _ => 'Mediano',
-  };
-  print(descripcion);
-}
-```
-
-## 6. Concurrencia con Isolates
-
-Dart usa isolates para concurrencia real (no threads).
-
-```dart
-import 'dart:isolate';
-
-Future<void> calcularEnParalelo() async {
-  final receivePort = ReceivePort();
-
-  await Isolate.spawn(_calculoPesado, receivePort.sendPort);
-
-  final resultado = await receivePort.first;
-  print('Resultado: $resultado');
-}
-
-void _calculoPesado(SendPort sendPort) {
-  // Simulamos un cálculo intensivo
-  var total = 0;
-  for (var i = 0; i < 1000000000; i++) {
-    total += i;
-  }
-  sendPort.send(total);
-}
-
-void main() async {
-  print('Iniciando cálculo en paralelo...');
-  await calcularEnParalelo();
-  print('Cálculo completado');
-}
-```
-
-**Ejercicio Avanzado 4**: Crea un programa que:
-
-1. Use 3 isolates para calcular factoriales de 20, 25 y 30
-2. Combine los resultados cuando todos terminen
-
-## 7. Metaprogramming con Reflection (mirrors)
-
-```dart
-import 'dart:mirrors';
-
-class Producto {
-  final String id;
-  final String nombre;
-  final double precio;
-
-  Producto(this.id, this.nombre, this.precio);
-
-  @override
-  String toString() => 'Producto $id: $nombre (\$$precio)';
-}
-
-void mostrarPropiedades(Object objeto) {
-  final instanceMirror = reflect(objeto);
-  final classMirror = instanceMirror.type;
-
-  print('Propiedades de ${classMirror.simpleName}:');
-
-  for (var declaration in classMirror.declarations.values) {
-    if (declaration is VariableMirror) {
-      final name = MirrorSystem.getName(declaration.simpleName);
-      final value = instanceMirror.getField(declaration.simpleName).reflectee;
-      print(' - $name: $value (${declaration.type.simpleName})');
-    }
-  }
-}
-
-void main() {
-  final producto = Producto('123', 'Laptop', 999.99);
-  mostrarPropiedades(producto);
-}
-```
-
-## 8. FFI (Foreign Function Interface)
-
-Interactúa con código nativo (C/C++).
-
-```dart
-import 'dart:ffi';
-import 'package:ffi/ffi.dart';
-
-// Ejemplo con una librería C
-final nativeLib = DynamicLibrary.open('lib/mi_libreria.so');
-
-// Definición de la función C
-typedef SumaFunc = Int32 Function(Int32, Int32);
-typedef Suma = int Function(int, int);
-
-void main() {
-  final suma = nativeLib.lookupFunction<SumaFunc, Suma>('suma');
-
-  final resultado = suma(5, 3);
-  print('Resultado de suma desde C: $resultado');
-}
-```
-
-**Ejercicio Avanzado 5**: (Requiere configuración adicional)
-
-1. Crea una función en C que calcule el n-ésimo número de Fibonacci
-2. Compílala como librería compartida
-3. Llámala desde Dart usando FFI
-
-## 9. Patrones de Diseño en Dart
-
-### Singleton
-
-```dart
-class Database {
-  static final Database _instance = Database._internal();
-
-  factory Database() => _instance;
-
-  Database._internal() {
-    print('Conexión a DB inicializada');
-  }
-
-  void query(String sql) => print('Ejecutando: $sql');
-}
-
-void main() {
-  var db1 = Database();
-  var db2 = Database();
-
-  print(identical(db1, db2)); // true, misma instancia
-
-  db1.query('SELECT * FROM users');
-}
-```
-
-### Factory Method
-
-```dart
-abstract class Logger {
-  void log(String message);
-
-  factory Logger(String type) {
-    switch (type) {
-      case 'file':
-        return FileLogger();
-      case 'console':
-      default:
-        return ConsoleLogger();
-    }
-  }
-}
-
-class ConsoleLogger implements Logger {
-  @override
-  void log(String message) => print('CONSOLE: $message');
-}
-
-class FileLogger implements Logger {
-  @override
-  void log(String message) => print('FILE: $message');
-}
-
-void main() {
-  var logger = Logger('file');
-  logger.log('Mensaje de error');
-}
-```
-
-## 10. Testing Avanzado
-
-```dart
-// mi_biblioteca.dart
-int suma(int a, int b) => a + b;
-Stream<int> contador(int max) async* {
-  for (var i = 1; i <= max; i++) {
-    await Future.delayed(Duration(milliseconds: 100));
-    yield i;
-  }
-}
-
-// test_mi_biblioteca.dart
-import 'package:test/test.dart';
-import 'mi_biblioteca.dart';
-
-void main() {
-  group('Pruebas de suma', () {
-    test('Suma positiva', () {
-      expect(suma(2, 3), equals(5));
-    });
-
-    test('Suma con cero', () {
-      expect(suma(0, 5), equals(5));
-    });
-  });
-
-  group('Pruebas de contador', () {
-    test('Emite valores correctos', () async {
-      final stream = contador(3);
-      await expectLater(stream, emitsInOrder([1, 2, 3]));
-    });
-
-    test('Completa después de emitir', () async {
-      final stream = contador(1);
-      await expectLater(stream, emits(1));
-      await expectLater(stream, emitsDone);
-    });
-  });
-}
-```
-
-**Ejercicio Final Avanzado**:
-Crea un paquete Dart que incluya:
-
-1. Una clase con métodos complejos (ej: procesamiento de datos)
-2. Tests unitarios con casos edge
-3. Documentación usando dartdoc
-4. Un ejemplo de uso con async/await
-5. Un isolate para operaciones pesadas
-
-Ejecuta los tests con: `dart test`
+Ahora que ya conoces los fundamentos, profundicemos en conceptos más avanzados de Python: **programación orientada a objetos (OOP), manejo de excepciones, módulos, generadores, decoradores y concurrencia básica**.  (**Generado con DeepSeek**)
 
 ---
 
-Este tutorial avanzado cubre características profesionales de Dart. Para profundizar:
+## **1. Programación Orientada a Objetos (OOP)**  
+Python soporta **clases, herencia, polimorfismo y encapsulamiento**.  
 
-- Explora paquetes populares como `riverpod` para state management
-- Aprende sobre code generation con `build_runner`
-- Investiga interoperabilidad con Flutter y web
-- Estudia arquitecturas limpias y patrones de diseño adicionales
+### **Ejemplo: Clase `Persona`**  
+```python
+class Persona:
+    def __init__(self, nombre, edad):  # Constructor
+        self.nombre = nombre  # Atributo
+        self.edad = edad
 
-¡Lleva tus habilidades de Dart al siguiente nivel! 🚀
+    def presentarse(self):  # Método
+        return f"Soy {self.nombre} y tengo {self.edad} años."
+
+# Uso
+persona1 = Persona("Ana", 30)
+print(persona1.presentarse())
+```
+**Salida:**  
+```
+Soy Ana y tengo 30 años.
+```
+
+### **Herencia**  
+```python
+class Estudiante(Persona):  # Hereda de Persona
+    def __init__(self, nombre, edad, carrera):
+        super().__init__(nombre, edad)  # Llama al constructor de Persona
+        self.carrera = carrera
+
+    def presentarse(self):  # Sobrescribe el método
+        return f"{super().presentarse()} Estudio {self.carrera}."
+
+estudiante1 = Estudiante("Luis", 22, "Informática")
+print(estudiante1.presentarse())
+```
+**Salida:**  
+```
+Soy Luis y tengo 22 años. Estudio Informática.
+```
+
+### **Ejercicio 1:**  
+Crea una clase `Rectangulo` con métodos para calcular su área y perímetro.  
+
+---
+
+## **2. Manejo de Excepciones (`try-except`)**  
+Evita que tu programa se detenga por errores.  
+
+### **Ejemplo:**  
+```python
+try:
+    resultado = 10 / 0
+except ZeroDivisionError:
+    print("¡Error: División por cero!")
+except Exception as e:
+    print(f"Error inesperado: {e}")
+else:
+    print("Todo salió bien.")
+finally:
+    print("Fin del bloque try-except.")
+```
+**Salida:**  
+```
+¡Error: División por cero!
+Fin del bloque try-except.
+```
+
+### **Ejercicio 2:**  
+Pide al usuario un número y maneja el error si ingresa texto.  
+
+---
+
+## **3. Módulos y Paquetes**  
+### **Crear un módulo (`mi_modulo.py`)**  
+```python
+def saludo(nombre):
+    return f"Hola, {nombre}!"
+
+PI = 3.1416
+```
+
+### **Importar el módulo**  
+```python
+import mi_modulo
+print(mi_modulo.saludo("Carlos"))  # Hola, Carlos!
+print(mi_modulo.PI)                # 3.1416
+```
+
+### **Ejercicio 3:**  
+Crea un paquete llamado `matematicas` con un módulo `operaciones.py` que incluya funciones para sumar y multiplicar.  
+
+---
+
+## **4. Generadores (`yield`)**  
+Útiles para manejar secuencias grandes sin cargarlas en memoria.  
+
+### **Ejemplo:**  
+```python
+def generador_pares(limite):
+    for i in range(0, limite, 2):
+        yield i  # Devuelve valores uno a uno
+
+pares = generador_pares(10)
+print(list(pares))  # [0, 2, 4, 6, 8]
+```
+
+### **Ejercicio 4:**  
+Crea un generador que devuelva los números de Fibonacci hasta un límite.  
+
+---
+
+## **5. Decoradores**  
+Modifican el comportamiento de una función sin cambiar su código.  
+
+### **Ejemplo: Decorador para medir tiempo**  
+
+```python
+import time
+
+def medir_tiempo(func):
+    def wrapper(*args, **kwargs):
+        inicio = time.time()
+        resultado = func(*args, **kwargs)
+        fin = time.time()
+        # :.2f dar formato para mostrar un flotante, dos decgitos despues del punto, puede ser :.nf *n decimales*
+        print(f"Tiempo de ejecución: {fin - inicio:.2f} segundos")
+        return resultado
+    return wrapper
+
+@medir_tiempo
+def suma_lenta(a, b):
+    time.sleep(1)  # Simula procesamiento lento
+    return a + b
+
+print(suma_lenta(5, 3))
+```
+**Salida:**  
+```
+Tiempo de ejecución: 1.00 segundos
+8
+```
+# Tips
+descripción y el uso de `*args` y `**kwargs` en Python 3:
+**`*args`**
+
+- **Descripción:** `*args` se utiliza en la definición de una función para pasar un número variable de argumentos posicionales. Internamente, Python empaqueta estos argumentos en una tupla.
+- **Uso:** Es útil cuando no sabes de antemano cuántos argumentos posicionales se pasarán a una función. Permite que la función reciba cualquier número de argumentos y los procese de manera flexible.
+
+Python
+
+```python
+def mi_funcion_args(*args):
+    for arg in args:
+        print(arg)
+
+mi_funcion_args("Hola", 10, 3.14, True)
+# Salida:
+# Hola
+# 10
+# 3.14
+# True
+```
+
+**`**kwargs`**
+
+- **Descripción:** `**kwargs` se utiliza en la definición de una función para pasar un número variable de argumentos con nombre (palabras clave). Internamente, Python empaqueta estos argumentos en un diccionario, donde las claves son los nombres de los argumentos y los valores son sus respectivos valores.
+- **Uso:** Es útil cuando necesitas pasar un conjunto de parámetros con nombre a una función, sin tener que definir cada parámetro individualmente en la firma de la función.
+
+Python
+
+```python
+def mi_funcion_kwargs(**kwargs):
+    for clave, valor in kwargs.items():
+        print(f"{clave}: {valor}")
+
+mi_funcion_kwargs(nombre="Ana", edad=30, ciudad="Buenos Aires")
+# Salida:
+# nombre: Ana
+# edad: 30
+# ciudad: Buenos Aires
+```
+
+**En resumen:**
+
+- `*args` permite pasar un número variable de argumentos **posicionales** a una función, que se reciben como una **tupla**.
+- `**kwargs` permite pasar un número variable de argumentos con **nombre (palabra clave)** a una función, que se reciben como un **diccionario**.
+
+Ambos son herramientas poderosas para crear funciones más flexibles y genéricas en Python.
+### **Ejercicio 5:**  
+Crea un decorador que imprima los argumentos de una función antes de ejecutarla.  
+
+---
+
+## **6. Concurrencia Básica (`threading`)**  
+Ejecuta tareas en paralelo.  
+
+### **Ejemplo:**  
+```python
+import threading
+
+def tarea(nombre):
+    print(f"Iniciando hilo: {nombre}")
+
+hilo1 = threading.Thread(target=tarea, args=("Hilo 1",))
+hilo2 = threading.Thread(target=tarea, args=("Hilo 2",))
+
+hilo1.start()
+hilo2.start()
+
+hilo1.join()  # Espera a que termine
+hilo2.join()
+```
+**Salida (puede variar):**  
+```
+Iniciando hilo: Hilo 1
+Iniciando hilo: Hilo 2
+```
+
+### **Ejercicio 6:**  
+Crea dos hilos: uno que imprima números pares y otro impares del 1 al 10.  
+
+---
+# Instalar dependencias usando pip y creando entornos virtuales
+
+- instalar en ubuntu y derivadas
+
+```bash
+sudo apt install python3-pip
+```
+
+- Entornos virtuales para instalar y manejar dependencias
+
+```bash
+mkdir python_proyecto
+cd python_proyecto
+python3 -m venv .venv
+```
+
+- Activar entorno virtual
+
+```bash
+source .venv/bin/activate
+```
+## **7. Proyecto Avanzado: API con Flask**  
+Crea un servidor web básico:  
+```python
+from flask import Flask
+
+app = Flask(__name__)
+
+@app.route("/")
+def home():
+    return "¡Bienvenido a mi API!"
+
+@app.route("/saludo/<nombre>")
+def saludo(nombre):
+    return f"Hola, {nombre}!"
+
+if __name__ == "__main__":
+    app.run(debug=True)
+```
+Ejecuta y visita:  
+- `http://127.0.0.1:5000/`  
+- `http://127.0.0.1:5000/saludo/Python`  
+
+---
+
+## **Recursos Avanzados**  
+- **[Python OOP (Real Python)](https://realpython.com/python3-object-oriented-programming/)**  
+- **[Decoradores (GeekForGeeks)](https://www.geeksforgeeks.org/decorators-in-python/)**  
+- **[Concurrencia (Python Docs)](https://docs.python.org/3/library/threading.html)**  
+
+¡Domina estos conceptos y llevarás tu Python al siguiente nivel! 🔥
