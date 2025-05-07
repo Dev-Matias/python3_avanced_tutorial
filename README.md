@@ -73,7 +73,7 @@ Fin del bloque try-except.
 
 ### **Ejercicio 2:**  
 Pide al usuario un número y maneja el error si ingresa texto.  
-
+**Resuelto** [ejercicio2.py](./ejercicios/ejercicio2.py)
 ---
 
 ## **3. Módulos y Paquetes**  
