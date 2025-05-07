@@ -137,6 +137,7 @@ print(list(pares))  # [0, 2, 4, 6, 8]
 
 ### **Ejercicio 4:**  
 Crea un generador que devuelva los números de Fibonacci hasta un límite.  
+**Resuelto** [ejercicio4.py](./ejercicios/ejercicio4.py)  
 
 ---
 
@@ -219,6 +220,7 @@ mi_funcion_kwargs(nombre="Ana", edad=30, ciudad="Buenos Aires")
 Ambos son herramientas poderosas para crear funciones más flexibles y genéricas en Python.
 ### **Ejercicio 5:**  
 Crea un decorador que imprima los argumentos de una función antes de ejecutarla.  
+**Resuelto** [ejercicio5.py](./ejercicios/ejercicio5.py)
 
 ---
 
