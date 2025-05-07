@@ -46,7 +46,7 @@ Soy Luis y tengo 22 años. Estudio Informática.
 
 ### **Ejercicio 1:**  
 Crea una clase `Rectangulo` con métodos para calcular su área y perímetro.  
-
+**Resuelto** [ejercicio1.py](./ejercicios/ejercicio1.py)  
 ---
 
 ## **2. Manejo de Excepciones (`try-except`)**  
