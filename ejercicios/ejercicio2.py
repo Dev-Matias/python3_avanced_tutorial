@@ -12,3 +12,4 @@ except ValueError as e:
 # En este código, se solicita al usuario que introduzca su edad.
 # Luego, se verifica si la edad es negativa o mayor a 120. Si es así, se lanza una excepción ValueError con un mensaje específico.
 # Si la edad es válida, se imprime.
+# En el bloque except, se captura la excepción y se imprime el mensaje de error.

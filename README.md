@@ -91,9 +91,34 @@ import mi_modulo
 print(mi_modulo.saludo("Carlos"))  # Hola, Carlos!
 print(mi_modulo.PI)                # 3.1416
 ```
-
+### **Paquetes**
+Un paquete es una colección de módulos.
+Para crear un paquete, crea un directorio con un archivo `__init__.py` y coloca tus módulos dentro.
+`__init__.py` archivo especial __init__.py (puede estar vacío). Permite agrupar módulos relacionados
+```bash
+mkdir mi_paquete
+cd mi_paquete
+touch __init__.py  # Indica que es un paquete
+```
+```python
+# mi_paquete/__init__.py
+from .mi_modulo import saludo, PI  # Importa funciones y variables
+```
+```python
+# mi_paquete/mi_modulo.py
+def saludo(nombre):
+    return f"Hola, {nombre}!"
+PI = 3.1416
+```
+```python
+# main.py
+from mi_paquete import saludo, PI
+print(saludo("Carlos"))  # Hola, Carlos!
+print(PI)                # 3.1416
+```
 ### **Ejercicio 3:**  
 Crea un paquete llamado `matematicas` con un módulo `operaciones.py` que incluya funciones para sumar y multiplicar.  
+**Resuelto** [ejercicio3.py](./ejercicios/ejercicio3.py)  
 
 ---
 
