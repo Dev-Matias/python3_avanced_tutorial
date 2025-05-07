@@ -251,7 +251,7 @@ Iniciando hilo: Hilo 2
 
 ### **Ejercicio 6:**  
 Crea dos hilos: uno que imprima números pares y otro impares del 1 al 10.  
-
+**Resuelto** [ejercicio6.py](./ejercicios/ejercicio6.py)
 ---
 # Instalar dependencias usando pip y creando entornos virtuales
 

@@ -35,23 +35,28 @@ print(next(lista_generador))  # Imprime: 2
 print(next(lista_generador))  # Imprime: 3
 #Ejemplo de uso yield con send
 def generador_con_send():
-  valor = None
   while True:
-    recibido = yield valor
-    print(f"Recibido: {recibido}")
-    if recibido == "incrementar":
-      valor = valor + 1 if valor is not None else 1
-    elif recibido == "resetear":
-      valor = 0
+    recibido = yield
+    print(f"Valor recibido: {recibido}, tipo: {type(recibido)}")
+    if isinstance(recibido, int):
+      print(f"El doble del valor recibido es: {recibido * 2}")
 
 gen = generador_con_send()
-print(next(gen))        # Inicia el generador (valor inicial es None)
-gen.send("incrementar") # Envía "incrementar", valor se convierte en 1
-print(next(gen))        # Obtiene el siguiente valor (1)
-gen.send("incrementar") # Envía "incrementar", valor se convierte en 2
-print(next(gen))        # Obtiene el siguiente valor (2)
-gen.send("resetear")    # Envía "resetear", valor se convierte en 0
-print(next(gen))        # Obtiene el siguiente valor (0)
+next(gen)  # Primer next() para iniciar el generador
+
+gen.send(10)
+# Salida:
+# Valor recibido: 10, tipo: <class 'int'>
+# El doble del valor recibido es: 20
+
+gen.send("hola")
+# Salida:
+# Valor recibido: hola, tipo: <class 'str'>
+
+gen.send([1, 2, 3])
+# Salida:
+# Valor recibido: [1, 2, 3], tipo: <class 'list'>
+
 gen.close()
 #Ejemplo de uso
 #Útiles para manejar secuencias grandes sin cargarlas en memoria
