@@ -1,4 +1,4 @@
-# Se importan las funciones de suma, resta, multiplicación y división del archivo matematicas/operaciones.py
+# Se importan las funciones de suma, resta, multiplicación y división del archivo matematicas/operaciones.py y matematicas/factorial_primo.py
 from matematicas.operaciones import sumar, restar, multiplicar, dividir
 from matematicas.factorial_primo import factorial, es_primo
 print("Ejercicio 3: Importar funciones de otro archivo")
