@@ -33,13 +33,25 @@ lista_generador = generador()
 print(next(lista_generador))  # Imprime: 1
 print(next(lista_generador))  # Imprime: 2
 print(next(lista_generador))  # Imprime: 3
+#Ejemplo de uso yield con send
+def generador_con_send():
+  valor = None
+  while True:
+    recibido = yield valor
+    print(f"Recibido: {recibido}")
+    if recibido == "incrementar":
+      valor = valor + 1 if valor is not None else 1
+    elif recibido == "resetear":
+      valor = 0
 
+gen = generador_con_send()
+print(next(gen))        # Inicia el generador (valor inicial es None)
+gen.send("incrementar") # Envía "incrementar", valor se convierte en 1
+print(next(gen))        # Obtiene el siguiente valor (1)
+gen.send("incrementar") # Envía "incrementar", valor se convierte en 2
+print(next(gen))        # Obtiene el siguiente valor (2)
+gen.send("resetear")    # Envía "resetear", valor se convierte en 0
+print(next(gen))        # Obtiene el siguiente valor (0)
+gen.close()
 #Ejemplo de uso
 #Útiles para manejar secuencias grandes sin cargarlas en memoria
-#Otro ejemplo de uso de yield
-def contar_hasta(n):
-    for i in range(n):
-        yield i
-#Ejemplo de uso
-for numero in contar_hasta(5):
-    print(numero)  # Imprime: 0, 1, 2, 3, 4
