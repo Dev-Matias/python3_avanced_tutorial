@@ -1,22 +1,19 @@
-crea un entornovirtual para ejecutar el script
-[]: # ```bash
-[]: # python3 -m venv venv
-[]: # source venv/bin/activate
-[]: # ```
-[]: # 
-[]: # ## **4. Flask**  
-[]: # ### **Instalación de Flask**  
-[]: # ```bash
-[]: # pip install Flask
-[]: # ```
-[]: # ### **Crear una aplicación Flask básica**  
-[]: # ```python
-[]: # from flask import Flask
-[]: # app = Flask(__name__)
-[]: # 
-[]: # @app.route('/')
-[]: # def hello():
-[]: #     return "¡Hola, mundo!"
-[]: # 
-[]: # if __name__ == '__main__':
-[]: #     app.run(debug=True)
+Crea un entorno virtual para ejecutar el script
+ ```bash
+ python3 -m venv venv
+ source venv/bin/activate
+ ```
+ 
+### **Flask**  
+**Instalación de Flask**  
+ ```bash
+ pip install Flask
+```
+### **Ejecuta mi_server.py**  
+````
+```bash
+ python3 mi_server.py
+```
+````
+```bash
+ * Running on http://localhost:5000/ (Press CTRL+C to quit)
