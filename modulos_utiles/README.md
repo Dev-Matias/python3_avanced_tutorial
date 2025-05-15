@@ -48,7 +48,7 @@ Haz un script que sume dos números pasados como argumentos (`python script.py 5
 
 ---
 
-## **3. `datetime` – Manejo de fechas y horas**  
+## **3. `datetime` – Manejo de fechas y horas `time` Manejo del tiempo**  
 **Descripción:** Trabaja con fechas, horas y diferencias de tiempo.  
 
 ### **Ejemplo:**  
@@ -63,10 +63,64 @@ print("Hoy:", ahora.strftime("%d/%m/%Y"))
 futuro = ahora + timedelta(days=5)
 print("En 5 días:", futuro.day)  
 ```
+```python
+import time
 
+# 1. time(): Devuelve el número de segundos transcurridos desde la época (punto de inicio del tiempo, generalmente el 1 de enero de 1970 en UTC).
+segundos_desde_epoca = time.time()
+print(f"Segundos desde la época: {segundos_desde_epoca}")
+
+# 2. ctime([secs]): Convierte un tiempo expresado en segundos desde la época a una cadena que representa la hora local. Si no se proporciona 'secs', utiliza el tiempo actual.
+tiempo_local_ahora = time.ctime()
+print(f"Tiempo local ahora (ctime): {tiempo_local_ahora}")
+
+tiempo_especifico = 1678886400  # Ejemplo de segundos desde la época
+tiempo_local_especifico = time.ctime(tiempo_especifico)
+print(f"Tiempo local para {tiempo_especifico} (ctime): {tiempo_local_especifico}")
+
+# 3. sleep(secs): Suspende la ejecución del hilo actual por el número de segundos especificado.
+print("Comienza la pausa...")
+time.sleep(3)  # Pausa la ejecución por 3 segundos
+print("Fin de la pausa.")
+
+# 4. localtime([secs]): Similar a ctime, pero devuelve un objeto struct_time que contiene los componentes del tiempo local (año, mes, día, hora, minuto, segundo, día de la semana, día del año, indicador de horario de verano).
+tiempo_local_struct = time.localtime()
+print(f"Tiempo local (struct_time): {tiempo_local_struct}")
+print(f"Año: {tiempo_local_struct.tm_year}")
+print(f"Mes: {tiempo_local_struct.tm_mon}")
+print(f"Hora: {tiempo_local_struct.tm_hour}")
+
+# 5. strftime(format[, t]): Convierte una tupla o struct_time representando el tiempo (devuelto por localtime() o gmtime()) a una cadena según el formato especificado. Si no se proporciona 't', utiliza el tiempo actual devuelto por localtime().
+formato = "%Y-%m-%d %H:%M:%S"
+tiempo_formateado = time.strftime(formato, tiempo_local_struct)
+print(f"Tiempo formateado: {tiempo_formateado}")
+
+# Algunos códigos de formato comunes:
+# %Y: Año con siglo (ej: 2023)
+# %m: Mes como número decimal [01, 12]
+# %d: Día del mes como número decimal [01, 31]
+# %H: Hora (reloj de 24 horas) como número decimal [00, 23]
+# %M: Minuto como número decimal [00, 59]
+# %S: Segundo como número decimal [00, 61] (rango incluye segundos bisiestos)
+# %a: Abreviatura del nombre del día de la semana (ej: Mon, Tue)
+# %A: Nombre completo del día de la semana (ej: Monday, Tuesday)
+# %b: Abreviatura del nombre del mes (ej: Jan, Feb)
+# %B: Nombre completo del mes (ej: January, February)
+
+# 6. strptime(string[, format]): Analiza una cadena que representa un tiempo según un formato y devuelve un objeto struct_time.
+cadena_tiempo = "2024/10/26 15:30:00"
+formato_entrada = "%Y/%m/%d %H:%M:%S"
+tiempo_analizado = time.strptime(cadena_tiempo, formato_entrada)
+print(f"Tiempo analizado (struct_time): {tiempo_analizado}")
+
+# 7. gmtime([secs]): Similar a localtime(), pero devuelve el tiempo en UTC (Tiempo Universal Coordinado).
+tiempo_utc = time.gmtime()
+print(f"Tiempo UTC (struct_time): {tiempo_utc}")
+```
 ### **Ejercicio:**  
 Calcula cuántos días faltan para tu próximo cumpleaños.  
-
+Crea un script que imprima la fecha y hora actual en diferentes formatos.
+Crea un script que funcione como cronómetro, mostrando el tiempo transcurrido desde que se inició hasta que se detuvo.
 ---
 
 ## **4. `json` – Manipulación de JSON**  
