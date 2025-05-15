@@ -15,3 +15,16 @@ rectangulo = Rectangulo(5, 10)
 # Mostrar el área y el perímetro
 print("Área del rectángulo:", rectangulo.area())
 print("Perímetro del rectángulo:", rectangulo.perimetro())
+#Herencia de la clase
+class Cuadrado(Rectangulo):
+    def __init__(self, lado):
+        super().__init__(lado, lado)  # Llama al constructor de la clase base
+    def area(self):
+        return self.base * self.base
+    def perimetro(self):
+        return 4 * self.base
+# Crear un objeto de la clase Cuadrado
+cuadrado = Cuadrado(5)
+# Mostrar el área y el perímetro
+print("Área del cuadrado:", cuadrado.area())
+print("Perímetro del cuadrado:", cuadrado.perimetro())
