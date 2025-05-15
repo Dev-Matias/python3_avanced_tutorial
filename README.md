@@ -303,6 +303,13 @@ import requests
 response = requests.get("https://jsonplaceholder.typicode.com/posts")
 print(response.status_code)  # 200
 print(response.json())  # Muestra el contenido JSON
+# Ejemplo de una petición GET a una URL
+url_get = "https://httpbin.org/get"
+respuesta_get = requests.get(url_get)
+
+print(f"Código de estado GET: {respuesta_get.status_code}")
+print(f"Encabezados GET: {respuesta_get.headers}")
+print(f"Contenido GET (JSON): {respuesta_get.json()}")
 ```
 ---
 ## **8. Proyecto Avanzado: Rick and Morty game**  
