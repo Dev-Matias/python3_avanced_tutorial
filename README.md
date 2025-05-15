@@ -297,7 +297,21 @@ Ejecuta y visita:
 - `http://127.0.0.1:5000/saludo/Python`  
 
 ---
-
+## **Consumir API REST**  
+```python
+import requests
+response = requests.get("https://jsonplaceholder.typicode.com/posts")
+print(response.status_code)  # 200
+print(response.json())  # Muestra el contenido JSON
+```
+---
+## **8. Proyecto Avanzado: Rick and Morty game**  
+Crea un juego de texto donde el usuario interactúe con personajes de Rick and Morty. Documentacion de la API:
+- **[Rick and Morty API](https://rickandmortyapi.com/documentation)** 
+```bash
+URL="https://rickandmortyapi.com/api/character"
+```
+**Rsuelto** [ejercicio7.py](./ejercicios/ejercicio7.py)
 ## **Recursos Avanzados**  
 - **[Python OOP (Real Python)](https://realpython.com/python3-object-oriented-programming/)**  
 - **[Decoradores (GeekForGeeks)](https://www.geeksforgeeks.org/decorators-in-python/)**  
