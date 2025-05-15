@@ -318,7 +318,13 @@ Crea un juego de texto donde el usuario interactúe con personajes de Rick and M
 ```bash
 URL="https://rickandmortyapi.com/api/character"
 ```
-**Rsuelto** [ejercicio7.py](./ejercicios/ejercicio7.py)
+## **9. Proyecto Avanzado: API REST**
+Crea una API REST básica con Flask y Consumir con requests.  
+Tips: jsonify para devolver JSON, request para manejar datos de entrada.  
+
+## Resuelto
+- **[Ejercicio 9: API REST](./ejercicios/api_flask/consumir_api_libro.py)**
+
 ## **Recursos Avanzados**  
 - **[Python OOP (Real Python)](https://realpython.com/python3-object-oriented-programming/)**  
 - **[Decoradores (GeekForGeeks)](https://www.geeksforgeeks.org/decorators-in-python/)**  
