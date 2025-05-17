@@ -277,16 +277,26 @@ Haz un script que acepte `--archivo` y cuente sus líneas.
 import sqlite3
 
 conn = sqlite3.connect("ejemplo.db")
-cursor = conn.cursor()
+cursor = conn.cursor()#objeto para ejecutar comandos SQL
 
 # Crear tabla
 cursor.execute("CREATE TABLE IF NOT EXISTS usuarios (nombre TEXT, edad INTEGER)")  
 
 # Insertar datos
 cursor.execute("INSERT INTO usuarios VALUES (?, ?)", ("Ana", 25))  
-conn.commit()  
+conn.commit()  #Guardar los cambios
 
-conn.close()  
+conn.close() 
+"""
+Tips: conexion.close(): Cierra la conexión a la base de datos. ¡Es crucial cerrar la conexión para guardar los cambios y liberar recursos!
+Tips: conexion.cursor(): Un cursor es un objeto que te permite ejecutar comandos SQL y recorrer los resultados.
+Tips: cursor.execute(sql, parameters=None): Ejecuta una única sentencia SQL. Puedes usar marcadores de posición (?) en tu SQL para pasar parámetros de forma segura, evitando inyecciones SQL.
+Tips: cursor.executemany(sql, seq_of_parameters): Ejecuta la misma sentencia SQL para múltiples secuencias de parámetros. Esto es eficiente para insertar o actualizar varios registros a la vez.
+Tips: cursor.executescript(sql_script): Ejecuta múltiples sentencias SQL separadas por punto y coma en una sola llamada.
+Tips: (despues de ejecutar SELECT) cursor.fetchone(): Recupera la siguiente fila del conjunto de resultados como una tupla. Devuelve None si no hay más filas.
+Tips: cursor.fetchall(): Recupera todas las filas restantes del conjunto de resultados como una lista de tuplas.
+Tips: cursor.fetchmany(size=cursor.arraysize): Recupera el siguiente conjunto de filas del conjunto de resultados como una lista de tuplas. El número de filas a recuperar está especificado por el parámetro size. Si no se proporciona, se utiliza el valor de cursor.arraysize (que por defecto es 1).
+""" 
 ```
 
 ### **Ejercicio:**  
