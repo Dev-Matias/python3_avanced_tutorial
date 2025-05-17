@@ -19,6 +19,19 @@ print(os.listdir("."))
 
 # Obtener la ruta absoluta
 print(os.path.abspath("nueva_carpeta"))  
+"""
+uso mas comunes de os
+os.getcwd() # Obtener el directorio de trabajo actual
+os.chdir("ruta") # Cambiar el directorio de trabajo
+os.remove("archivo.txt") # Eliminar un archivo
+os.rename("archivo_viejo.txt", "archivo_nuevo.txt") # Renombrar un archivo
+os.path.join("directorio", "archivo.txt") # Unir rutas de forma segura
+os.path.exists("ruta") # Verificar si una ruta existe
+os.path.isfile("archivo.txt") # Verificar si es un archivo
+os.path.isdir("directorio") # Verificar si es un directorio
+os.path.splitext("archivo.txt") # Separar nombre y extensión
+os.path.split("ruta/archivo.txt") # Separar ruta y nombre de archivo
+"""
 ```
 
 ### **Ejercicio:**  
